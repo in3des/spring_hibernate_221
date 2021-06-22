@@ -14,6 +14,8 @@ import java.util.List;
 @Service
 public class UserServiceImp implements UserService {
 
+   private static Session HibernateUtil;
+
    @Autowired
    private UserDao userDao;
 
@@ -29,18 +31,11 @@ public class UserServiceImp implements UserService {
       return userDao.listUsers();
    }
 
-   private static void getUserByCar() {
-
-      try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-
-         String HQL="FROM Car cars LEFT OUTER JOIN FETCH cars.user WHERE cars.addressId=:addrId";
-         Car car = session.createQuery(HQL, Car.class).setParameter("addrId", 1).uniqueResult();
-         System.out.println(car);
-         System.out.println(car.getUser());
-      } catch (HibernateException e) {
-         e.printStackTrace();
-      }
-
+   @Override
+   public void getUserByCar(Car car) {
+      userDao.getUserByCar(car);
    }
+
+
 
 }
