@@ -32,10 +32,6 @@ public class Car {
                 ", series-" + series;
     }
 
-    public User getUser() {
-        return user;
-    }
-
     public String getModel() {
         return model;
     }
@@ -51,6 +47,5 @@ public class Car {
     public void setSeries(int series) {
         this.series = series;
     }
-
 
 }
