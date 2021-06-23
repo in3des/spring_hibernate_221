@@ -31,19 +31,36 @@ public class UserDaoImp implements UserDao {
    }
 
    @Override
-   public void getUserByCar(Car car) {
+   public void getUserByCar() {
 
-      try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+//      User user = null;
 
-         String HQL="FROM Car cars LEFT OUTER JOIN FETCH cars.user WHERE cars.car_id=:id";
-         car = session.createQuery(HQL, Car.class).setParameter("id", 1).uniqueResult();
-         System.out.println(car);
-         System.out.println(car.getUser());
-      } catch (HibernateException e) {
-         e.printStackTrace();
-      }
+//      try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+         String HQL="FROM User WHERE car.car_id=:id";
+//         Car car = session.createQuery(HQL, Car.class).setParameter("id", 1).uniqueResult();
+         TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(HQL);
+         query.setParameter("id", 1);
+         System.out.println(query.getSingleResult());
+//         System.out.println(car.getUser());
+//         user = car.getUser();
+//      } catch (HibernateException e) {
+//         e.printStackTrace();
+//      }
 
 //      return user;
    }
+
+
+   @Override
+   public User getUserByCar(Car car) {
+      String hql = "FROM User WHERE car.model = :model AND car.series = :series";
+      TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hql);
+      query.setParameter("model", car.getModel());
+      query.setParameter("series", car.getSeries());
+      return query.getSingleResult();
+   }
+
+
    
 }

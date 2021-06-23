@@ -3,7 +3,6 @@ package hiber.service;
 import hiber.dao.UserDao;
 import hiber.model.Car;
 import hiber.model.User;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,9 +30,16 @@ public class UserServiceImp implements UserService {
       return userDao.listUsers();
    }
 
+   @Transactional
    @Override
-   public void getUserByCar(Car car) {
-      userDao.getUserByCar(car);
+   public User getUserByCar(Car car) {
+      return userDao.getUserByCar(car);
+      }
+
+   @Transactional
+   @Override
+   public void getUserByCar() {
+      userDao.getUserByCar();
    }
 
 
